@@ -296,8 +296,16 @@ int emscripten_dispatch_to_thread_async_(pthread_t target_thread,
 // Returns 1 if the current thread is the thread that hosts the Emscripten runtime.
 int emscripten_is_main_runtime_thread(void);
 
-// Returns 1 if the current thread is the main browser thread.
+// Returns 1 if the current thread is the main browser thread.  For historical
+// reasons this functions also returns 1 on the main node thread.
+// Use emscripten_thread_can_block() instead to determine if the current
+// thread can block.
 int emscripten_is_main_browser_thread(void);
+
+// Returns 1 if the current thread can use atomics.wait or other forms of
+// synchronous blocking.  This will return 0 on the main web browser thread
+// and 1 everywhere else, including on the main node thread.
+int emscripten_thread_can_block(void);
 
 // A temporary workaround to issue
 // https://github.com/emscripten-core/emscripten/issues/3495:
