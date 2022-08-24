@@ -1,0 +1,24 @@
+[emscripten.ports]
+boost_headers = tools.ports.boost_headers
+bullet = tools.ports.bullet
+bzip2 = tools.ports.bzip2
+cocos2d = tools.ports.cocos2d
+freetype = tools.ports.freetype
+giflib = tools.ports.giflib
+harfbuzz = tools.ports.harfbuzz
+icu = tools.ports.icu
+libjpeg = tools.ports.libjpeg
+libmodplug = tools.ports.libmodplug
+libpng = tools.ports.libpng
+mpg123 = tools.ports.mpg123
+ogg = tools.ports.ogg
+regal = tools.ports.regal
+sdl2 = tools.ports.sdl2
+sdl2_gfx = tools.ports.sdl2_gfx
+sdl2_image = tools.ports.sdl2_image
+sdl2_mixer = tools.ports.sdl2_mixer
+sdl2_net = tools.ports.sdl2_net
+sdl2_ttf = tools.ports.sdl2_ttf
+sqlite3 = tools.ports.sqlite3
+vorbis = tools.ports.vorbis
+zlib = tools.ports.zlib

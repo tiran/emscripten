@@ -10,6 +10,8 @@ HASH = '33ea357de1c137b4ce101349b119105d090ef2e05224fd3f05074b65579e53b068fa94ab
 SUBDIR = 'SDL-' + TAG
 
 variants = {'sdl2-mt': {'USE_PTHREADS': 1}}
+settings = {"USE_SDL": False}
+
 
 
 def needed(settings):

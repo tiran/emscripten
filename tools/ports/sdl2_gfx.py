@@ -12,6 +12,8 @@ HASH = 'f39f1f50a039a1667fe92b87d28548d32adcf0eb8526008656de5315039aa21f29d23070
 
 deps = ['sdl2']
 
+settings = {"USE_SDL_GFX": False}
+
 
 def needed(settings):
   return settings.USE_SDL_GFX == 2

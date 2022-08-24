@@ -16,6 +16,11 @@ variants = {
   'sdl2_mixer_none': {'SDL2_MIXER_FORMATS': []},
 }
 
+settings = {
+    "USE_SDL_MIXER": False,
+    "SDL2_MIXER_FORMATS": ["ogg"],
+  }
+
 
 def needed(settings):
   return settings.USE_SDL_MIXER == 2

@@ -15,6 +15,13 @@ from tools import system_libs
 from tools import utils
 from tools.settings import settings
 
+try:
+  # Python 3.8+
+  from importlib.metadata import entry_points
+except ImportError:
+  # Python <= 3.7 with setuptools
+  from pkg_resources import iter_entry_points as entry_points
+
 ports = []
 
 ports_by_name = {}
@@ -23,20 +30,21 @@ ports_by_name = {}
 # {variant_name: (port_name, extra_settings)}
 port_variants = {}
 
+# {setting name: default}
+port_settings = {}
+
 ports_dir = os.path.dirname(os.path.abspath(__file__))
 
 logger = logging.getLogger('ports')
 
 
 def read_ports():
-  expected_attrs = ['get', 'clear', 'process_args', 'show', 'needed']
-  for filename in os.listdir(ports_dir):
-    if not filename.endswith('.py') or filename == '__init__.py':
-      continue
-    filename = os.path.splitext(filename)[0]
-    port = __import__(filename, globals(), level=1)
+  expected_attrs = ['get', 'clear', 'process_args', 'show', 'needed', 'settings']
+  # get ports from entry points
+  for ep in entry_points(group="emscripten.ports"):
+    port = ep.load()
     ports.append(port)
-    port.name = filename
+    port.name = ep.name
     ports_by_name[port.name] = port
     for a in expected_attrs:
       assert hasattr(port, a), 'port %s is missing %s' % (port, a)
@@ -55,9 +63,16 @@ def read_ports():
         utils.exit_with_error('duplicate port variant: %s' % variant)
       port_variants[variant] = (port.name, extra_settings)
 
+    for key, default in port.settings.items():
+      if key in port_settings:
+        utils.exit_with_error('duplicate setting: %s' % key)
+      port_settings[key] = default
+
   for dep in port.deps:
     if dep not in ports_by_name:
       utils.exit_with_error('unknown dependency in port: %s' % dep)
+
+  settings.update_port_settings(port_settings)
 
 
 def get_all_files_under(dirname):
